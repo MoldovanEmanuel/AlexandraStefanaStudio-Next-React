@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  category    String
+  year        String?
+  surface     String?
+  location    String?
+  image       String?
+  paragraphs  Json     @default("[]")
+  features    Json     @default("[]")
+  gallery     Json     @default("[]")
+  layout      String?
+  sortOrder   Int      @default(0) @map("sort_order")
+  active      Boolean  @default(true)
+  showOnHome  Boolean  @default(false) @map("show_on_home")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([active, sortOrder])
+  @@index([slug])
+  @@map("projects")
+}
+
+model News {
+  id         Int      @id @default(autoincrement())
+  title      String
+  date       DateTime @db.Date
+  image      String?
+  url        String?
+  active     Boolean  @default(true)
+  showOnHome Boolean  @default(false) @map("show_on_home")
+  sortOrder  Int      @default(0) @map("sort_order")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([active, date])
+  @@map("news")
+}
+
+model HeroSlide {
+  id        Int      @id @default(autoincrement())
+  image     String
+  sortOrder Int      @default(0) @map("sort_order")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([active, sortOrder])
+  @@map("hero_slides")
+}
+
+model Render {
+  id        Int      @id @default(autoincrement())
+  title     String
+  videoPath String   @map("video_path")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([sortOrder])
+  @@map("renders")
+}
+
+model ContactSubmission {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  ipAddress String   @map("ip_address") @db.VarChar(45)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("contact_submissions")
+}
+
+model AdminUser {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_users")
+}
