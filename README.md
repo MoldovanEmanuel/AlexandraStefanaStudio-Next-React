@@ -1,7 +1,7 @@
 # Alexandra Stefana Studio — Next.js
 
 Portfolio website for Alexandra Stefana Interior Design Studio, Cluj-Napoca.
-Rebuilt from Laravel to a modern full-stack TypeScript application.
+Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
 
 ---
 
