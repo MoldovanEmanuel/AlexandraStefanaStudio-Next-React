@@ -212,32 +212,6 @@ AlexandraStefanaStudio-next/
 
 ---
 
-## Environment variables
-
-| Variable | Description |
-|---|---|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `REDIS_URL` | Redis connection string (default `redis://localhost:6379`) |
-| `JWT_SECRET` | Signing key for admin tokens — **change in production** |
-| `JWT_EXPIRY` | Token expiry (default `7d`) |
-| `AWS_REGION` | S3/CloudFront region (default `eu-central-1`) |
-| `AWS_ACCESS_KEY_ID` | AWS credentials |
-| `AWS_SECRET_ACCESS_KEY` | AWS credentials |
-| `AWS_S3_BUCKET` | S3 bucket name for uploaded media |
-| `CLOUDFRONT_DOMAIN` | CloudFront domain for serving media (e.g. `abc123.cloudfront.net`) |
-| `SMTP_HOST` | SMTP server hostname |
-| `SMTP_PORT` | SMTP port (default `587`) |
-| `SMTP_USER` | SMTP username / email address |
-| `SMTP_PASS` | SMTP password / app password |
-| `CONTACT_MAIL_TO` | Recipient for contact form submissions |
-| `MAIL_FROM_NAME` | Sender display name |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 measurement ID (optional) |
-| `ADMIN_SEED_EMAIL` | Admin email created by `npm run db:seed` |
-| `ADMIN_SEED_PASSWORD` | Admin password created by `npm run db:seed` |
-| `APP_URL` | Public site URL — used in sitemap and JSON-LD (default `https://alexandrastefana.studio`) |
-
----
-
 ## License
 
 Private website — all rights reserved.
