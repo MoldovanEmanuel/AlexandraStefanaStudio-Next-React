@@ -42,6 +42,38 @@ Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
 - **Renders** — video upload (MP4), title management, drag-to-reorder
 - **Dashboard** — entity counts at a glance, recent projects list, quick-action links
 
+### Backend API
+- **`POST /api/auth/login`** — validates credentials, issues JWT in HTTP-only cookie
+- **`POST /api/auth/logout`** — clears the auth cookie
+- **`GET /api/auth/me`** — returns current user from token
+- **`GET /api/projects`** — active projects, paginated, filterable by category; `?admin=1` returns all
+- **`POST /api/projects`** — create project (admin)
+- **`GET /api/projects/:id`** — single project
+- **`PUT /api/projects/:id`** — update project (admin)
+- **`DELETE /api/projects/:id`** — delete project (admin)
+- **`POST /api/projects/:id/gallery`** — upload and append gallery image, auto-converted to WebP (admin)
+- **`DELETE /api/projects/:id/gallery`** — remove gallery image + delete from S3 (admin)
+- **`PATCH /api/projects/:id/gallery`** — update image orientation: `landscape` / `portrait` (admin)
+- **`POST /api/projects/reorder`** — batch `sortOrder` update from drag-to-reorder (admin)
+- **`GET /api/news`** — active news items, paginated; `?admin=1` returns all
+- **`POST /api/news`** — create news item (admin)
+- **`GET /api/news/:id`** — single news item
+- **`PUT /api/news/:id`** — update news item (admin)
+- **`DELETE /api/news/:id`** — delete news item (admin)
+- **`POST /api/news/reorder`** — batch `sortOrder` update (admin)
+- **`GET /api/hero`** — all hero slides ordered by `sortOrder`
+- **`POST /api/hero`** — upload new hero slide, auto-converted to WebP (admin)
+- **`PATCH /api/hero/:id`** — toggle `active` status (admin)
+- **`DELETE /api/hero/:id`** — delete slide + S3 file (admin)
+- **`POST /api/hero/reorder`** — batch `sortOrder` update (admin)
+- **`GET /api/renders`** — all renders ordered by `sortOrder`
+- **`POST /api/renders`** — upload MP4 video + title (admin)
+- **`PUT /api/renders/:id`** — update title (admin)
+- **`DELETE /api/renders/:id`** — delete render + S3 file (admin)
+- **`POST /api/renders/reorder`** — batch `sortOrder` update (admin)
+- **`POST /api/contact`** — honeypot check, Redis rate limit (3/IP/10 min), validate, persist, send email
+- **`POST /api/upload`** — generic image upload → S3, returns `{ url, key }`
+
 ### SEO & performance
 - Next.js Metadata API — titles, descriptions, Open Graph, Twitter Card on all pages
 - JSON-LD structured data — `InteriorDesigner`, `BreadcrumbList`, `ContactPage`
