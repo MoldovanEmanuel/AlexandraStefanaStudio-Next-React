@@ -208,4 +208,4 @@ AlexandraStefanaStudio-next/
 
 ## License
 
-Private project — all rights reserved.
+Private website — all rights reserved.
