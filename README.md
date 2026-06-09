@@ -1,4 +1,4 @@
-# Alexandra Stefana Studio — Next.js
+# Alexandra Stefana Studio
 
 Live website for Alexandra Stefana Interior Design Studio, Cluj-Napoca.
 Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
