@@ -1,7 +1,17 @@
 # Alexandra Stefana Studio
 
-Live website for Alexandra Stefana Interior Design Studio, Cluj-Napoca.
-Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
+Production portfolio platform for Alexandra Stefana Interior Design Studio (alexandrastefana.studio), Cluj-Napoca.
+Engineered and deployed as a full-stack Next.js 15 application with React 19, TypeScript, PostgreSQL, and Redis — rebuilt from a Laravel backend to a modern, server-rendered React architecture optimised for performance, scalability, and long-term maintainability.
+
+Designed with an AI-optimised, search-intent-driven architecture: semantic SEO, structured data, and machine-readable content patterns improve discoverability across both traditional search engines and emerging AI-driven search systems.
+
+**Core implementation highlights:**
+- Responsive, mobile-first frontend using React Server Components and Tailwind CSS with custom design tokens — no client JS overhead on public pages
+- Custom admin panel built with TanStack Query, React Hook Form, and `@dnd-kit` — full CRUD for projects, news, hero slides, and 3D renders, including drag-to-reorder, AJAX gallery uploads, and per-image WebP conversion via Sharp
+- Technical SEO architecture: JSON-LD (`InteriorDesigner`, `BreadcrumbList`, `ContactPage`), Open Graph / Twitter Cards, dynamic `sitemap.xml`, and optimised `robots.txt`
+- Performance engineering: `next/font` variable font loading (zero FOUT), S3 + CloudFront media delivery with local fallback, Redis page caching (5 min TTL), all uploads auto-converted to WebP at 85% quality
+- Secure contact system with honeypot anti-spam, IP-based Redis rate limiting (3 req/10 min), server-side Zod validation, submission logging, and transactional email via Nodemailer
+- JWT authentication with HTTP-only cookies, validated in Next.js middleware on all `/admin/*` and mutating `/api/*` routes
 
 ---
 
