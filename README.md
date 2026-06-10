@@ -15,7 +15,7 @@ Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
 | Backend | Next.js API routes (REST), JWT authentication via `jose` |
 | Database | PostgreSQL via Prisma ORM |
 | Caching | Redis — page-level caching (5 min TTL) + contact form rate limiting |
-| Media | AWS S3 + CloudFront — all uploads auto-converted to WebP via Sharp |
+| Media | AWS S3 + CloudFront — images auto-converted to WebP via Sharp; falls back to `public/uploads/` when S3 is unavailable |
 | Email | Nodemailer (any SMTP) |
 | Testing | Vitest (unit), Playwright (E2E) |
 | DevOps | Docker Compose, GitHub Actions CI/CD, Terraform (S3 + CloudFront IaC) |
@@ -28,7 +28,7 @@ Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
 ### Public site
 - **Home** — animated hero slider (auto-rotate + manual controls), about section, services grid, portfolio preview, news preview
 - **Portfolio** — filterable by category, paginated (9 per page), project detail with masonry gallery + fullscreen lightbox
-- **Renders** — 3D animation and video gallery
+- **Renders** — 3D animation and video gallery; each render shows a cover image with a play button overlay; clicking loads the video inline
 - **News** — paginated press/media listing linking to external articles
 - **Contact** — contact info + validated form (honeypot + Redis rate limiting: 3 submissions per 10 min per IP)
 - **Sitemap** — dynamic `sitemap.xml` via Next.js `sitemap.ts`
@@ -39,7 +39,7 @@ Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
 - **Projects** — CRUD, thumbnail upload, drag-to-reorder (`@dnd-kit`), gallery upload with per-image orientation toggle (landscape / portrait)
 - **News** — CRUD, cover image upload, drag-to-reorder, external URL
 - **Hero Slides** — upload, toggle active/inactive, drag-to-reorder
-- **Renders** — video upload (MP4), title management, drag-to-reorder
+- **Renders** — video upload (MP4), per-render cover image upload, title management, drag-to-reorder
 - **Dashboard** — entity counts at a glance, recent projects list, quick-action links
 
 ### Backend API
@@ -71,6 +71,8 @@ Built with Next.js 15, React 19, TypeScript, PostgreSQL, and Redis.
 - **`PUT /api/renders/:id`** — update title (admin)
 - **`DELETE /api/renders/:id`** — delete render + S3 file (admin)
 - **`POST /api/renders/reorder`** — batch `sortOrder` update (admin)
+- **`POST /api/renders/cover`** — upload a shared cover image used as fallback (admin)
+- **`POST /api/renders/:id/cover`** — upload a cover image for a specific render; stored in `coverImage` field (admin)
 - **`POST /api/contact`** — honeypot check, Redis rate limit (3/IP/10 min), validate, persist, send email
 - **`POST /api/upload`** — generic image upload → S3, returns `{ url, key }`
 
@@ -162,6 +164,8 @@ AlexandraStefanaStudio-next/
 │   │       ├── hero/reorder/route.ts
 │   │       ├── renders/route.ts                # GET / POST (video upload)
 │   │       ├── renders/[id]/route.ts           # PUT / DELETE
+│   │       ├── renders/[id]/cover/route.ts     # POST — upload cover image for a render
+│   │       ├── renders/cover/route.ts          # POST — upload shared fallback cover image
 │   │       ├── renders/reorder/route.ts
 │   │       ├── contact/route.ts                # POST — honeypot + rate limit + email
 │   │       └── upload/route.ts                 # POST — generic image upload → S3
@@ -178,6 +182,8 @@ AlexandraStefanaStudio-next/
 │       │   └── NewsPreview.tsx                 # 3-item news strip from showOnHome
 │       ├── portfolio/
 │       │   └── CategoryFilter.tsx              # URL-driven filter buttons
+│       ├── renders/
+│       │   └── RenderCard.tsx                  # Cover image + play button overlay; swaps to inline video on click
 │       ├── project/
 │       │   └── ProjectGallery.tsx              # Masonry grid + fullscreen lightbox
 │       ├── contact/
