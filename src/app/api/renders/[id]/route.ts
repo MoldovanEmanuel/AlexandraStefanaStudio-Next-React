@@ -19,6 +19,9 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
   const render = await prisma.render.findUnique({ where: { id: Number(id) } });
   if (render) {
     try { await deleteFromS3(keyFromUrl(render.videoPath)); } catch {}
+    if (render.coverImage) {
+      try { await deleteFromS3(keyFromUrl(render.coverImage)); } catch {}
+    }
   }
   await prisma.render.delete({ where: { id: Number(id) } });
   await cacheDel(CACHE_KEYS.renders);

@@ -6,7 +6,7 @@ import type { Project } from "@/types";
 
 interface PageProps { params: Promise<{ id: string }> }
 
-export const metadata: Metadata = { title: "Editează proiect" };
+export const metadata: Metadata = { title: "Edit Project | Admin" };
 
 export default async function EditProjectPage({ params }: PageProps) {
   const { id } = await params;
@@ -24,9 +24,17 @@ export default async function EditProjectPage({ params }: PageProps) {
 
   return (
     <div>
-      <h1 className="font-display text-2xl tracking-widest text-text-primary mb-8">
-        Editează: {project.name}
-      </h1>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="font-display text-2xl tracking-widest text-text-primary">
+          EDIT: {project.name.toUpperCase()}
+        </h1>
+        <a
+          href="/admin/projects"
+          className="font-body text-xs uppercase tracking-widest text-text-muted hover:text-text-secondary transition-colors"
+        >
+          ← BACK
+        </a>
+      </div>
       <ProjectForm project={project} />
     </div>
   );

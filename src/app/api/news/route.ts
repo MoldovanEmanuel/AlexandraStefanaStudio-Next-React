@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   const [news, total] = await Promise.all([
     prisma.news.findMany({
       where,
-      orderBy: { date: "desc" },
+      orderBy: adminMode ? { sortOrder: "asc" } : { date: "desc" },
       skip: (page - 1) * perPage,
       take: perPage,
     }),
@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
 const createSchema = z.object({
   title: z.string().min(1).max(300),
   date: z.string(),
-  image: z.string().optional(),
-  url: z.string().url().optional().or(z.literal("")),
+  image: z.string().nullable().optional(),
+  url: z.string().url().nullable().optional().or(z.literal("")),
   active: z.boolean().default(true),
   showOnHome: z.boolean().default(false),
 });
@@ -61,9 +61,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ data: serialize(item) }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Validare eșuată", details: error.flatten().fieldErrors }, { status: 400 });
+      return NextResponse.json({ error: "Validation failed", details: error.flatten().fieldErrors }, { status: 400 });
     }
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 

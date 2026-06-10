@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ["framer-motion", "@dnd-kit/core"],
+    serverActions: {
+      bodySizeLimit: "250mb",
+    },
   },
   async headers() {
     return [

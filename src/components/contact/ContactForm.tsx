@@ -7,12 +7,12 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
-  name: z.string().min(2, "Introduceți cel puțin 2 caractere").max(100),
-  email: z.string().email("Adresă email invalidă"),
+  name: z.string().min(2, "Please enter at least 2 characters").max(100),
+  email: z.string().email("Invalid email address"),
   message: z
     .string()
-    .min(10, "Mesajul trebuie să aibă cel puțin 10 caractere")
-    .max(2000, "Mesajul nu poate depăși 2000 caractere"),
+    .min(10, "Message must be at least 10 characters")
+    .max(2000, "Message cannot exceed 2000 characters"),
   website: z.string().max(0).optional(), // honeypot
 });
 
@@ -46,11 +46,11 @@ export function ContactForm() {
       } else {
         const json = await res.json();
         setStatus("error");
-        setErrorMessage(json.error ?? "A apărut o eroare. Vă rugăm să încercați din nou.");
+        setErrorMessage(json.error ?? "An error occurred. Please try again.");
       }
     } catch {
       setStatus("error");
-      setErrorMessage("Eroare de conexiune. Vă rugăm să încercați din nou.");
+      setErrorMessage("Connection error. Please try again.");
     }
   };
 
@@ -58,7 +58,7 @@ export function ContactForm() {
     return (
       <div className="border border-accent/40 bg-accent/5 p-8">
         <p className="font-body text-sm text-text-primary">
-          Mesajul dvs. a fost trimis cu succes. Vă vom contacta în curând.
+          Your message has been sent successfully. We will contact you shortly.
         </p>
       </div>
     );
@@ -71,13 +71,13 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="name" className="admin-label">
-          Nume *
+          Name *
         </label>
         <input
           id="name"
           {...register("name")}
           className={cn("admin-input", errors.name && "border-red-800")}
-          placeholder="Numele dvs."
+          placeholder="Your name"
         />
         {errors.name && (
           <p className="mt-1 font-body text-xs text-red-600">{errors.name.message}</p>
@@ -93,7 +93,7 @@ export function ContactForm() {
           type="email"
           {...register("email")}
           className={cn("admin-input", errors.email && "border-red-800")}
-          placeholder="email@exemplu.ro"
+          placeholder="email@example.com"
         />
         {errors.email && (
           <p className="mt-1 font-body text-xs text-red-600">{errors.email.message}</p>
@@ -102,14 +102,14 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="message" className="admin-label">
-          Mesaj *
+          Message *
         </label>
         <textarea
           id="message"
           rows={6}
           {...register("message")}
           className={cn("admin-input resize-none", errors.message && "border-red-800")}
-          placeholder="Descrieți proiectul dvs..."
+          placeholder="Describe your project..."
         />
         {errors.message && (
           <p className="mt-1 font-body text-xs text-red-600">{errors.message.message}</p>
@@ -125,7 +125,7 @@ export function ContactForm() {
         disabled={status === "loading"}
         className="btn-primary w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {status === "loading" ? "Se trimite..." : "Trimite mesajul"}
+        {status === "loading" ? "Sending..." : "Send message"}
       </button>
     </form>
   );

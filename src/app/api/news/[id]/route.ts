@@ -37,9 +37,9 @@ export async function PUT(request: NextRequest, { params }: Params) {
     return NextResponse.json({ data: serialize(item) });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Validare eșuată" }, { status: 400 });
+      return NextResponse.json({ error: "Validation failed" }, { status: 400 });
     }
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 

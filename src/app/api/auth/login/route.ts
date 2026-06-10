@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { verifyPassword, setAuthCookie } from "@/lib/auth";
+import { setAuthCookie } from "@/lib/auth";
 
 const schema = z.object({
   email: z.string().email(),
@@ -9,33 +8,34 @@ const schema = z.object({
   remember: z.boolean().optional(),
 });
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { email, password, remember } = schema.parse(body);
 
-    const user = await prisma.adminUser.findUnique({ where: { email } });
-
-    if (!user || !(await verifyPassword(password, user.password))) {
+    if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
       return NextResponse.json(
-        { error: "Email sau parolă incorectă" },
+        { error: "Invalid email or password" },
         { status: 401 },
       );
     }
 
     await setAuthCookie(
-      { sub: String(user.id), email: user.email, name: user.name, role: "admin" },
+      { sub: "1", email: ADMIN_EMAIL, name: "Admin", role: "admin" },
       remember,
     );
 
     return NextResponse.json({
-      data: { id: user.id, name: user.name, email: user.email },
+      data: { id: 1, name: "Admin", email: ADMIN_EMAIL },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Date invalide" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
     console.error("[Auth login]", error);
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
 }

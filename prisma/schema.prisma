@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -34,7 +34,7 @@ model Project {
 model News {
   id         Int      @id @default(autoincrement())
   title      String
-  date       DateTime @db.Date
+  date       DateTime
   image      String?
   url        String?
   active     Boolean  @default(true)
@@ -60,12 +60,13 @@ model HeroSlide {
 }
 
 model Render {
-  id        Int      @id @default(autoincrement())
-  title     String
-  videoPath String   @map("video_path")
-  sortOrder Int      @default(0) @map("sort_order")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         Int      @id @default(autoincrement())
+  title      String
+  videoPath  String   @map("video_path")
+  coverImage String?  @map("cover_image")
+  sortOrder  Int      @default(0) @map("sort_order")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   @@index([sortOrder])
   @@map("renders")
@@ -76,7 +77,7 @@ model ContactSubmission {
   name      String
   email     String
   message   String
-  ipAddress String   @map("ip_address") @db.VarChar(45)
+  ipAddress String   @map("ip_address")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

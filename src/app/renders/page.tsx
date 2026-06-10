@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { cacheGet, cacheSet, CACHE_KEYS } from "@/lib/redis";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { RenderCard } from "@/components/renders/RenderCard";
 import type { Render } from "@/types";
 
 export const metadata: Metadata = {
-  title: "3D Animații & Randări",
+  title: "3D Animations",
   description:
-    "Vizualizări 3D fotorealiste și animații de arhitectură. Aducem proiectele la viață înainte de execuție.",
+    "3D visualization animations by Alexandra Stefana — Interior Designer & CG Artist based in Cluj-Napoca, Romania.",
 };
 
 async function getRenders(): Promise<Render[]> {
@@ -21,6 +23,7 @@ async function getRenders(): Promise<Render[]> {
 
   const renders = raw.map((r) => ({
     ...r,
+    coverImage: r.coverImage ?? null,
     createdAt: r.createdAt.toISOString(),
     updatedAt: r.updatedAt.toISOString(),
   }));
@@ -35,44 +38,30 @@ export default async function RendersPage() {
   return (
     <>
       <Header />
-      <main className="pt-[var(--nav-height)]">
-        <section className="py-16 lg:py-24 border-b border-border">
-          <div className="mx-auto max-w-8xl px-6 lg:px-12">
-            <p className="section-subtitle mb-3">Vizualizare</p>
-            <h1 className="font-display text-display-lg text-text-primary">
-              3D Animații & Randări
-            </h1>
-          </div>
-        </section>
+      <main>
+        <section className="renders-section" style={{ padding: "120px 0 80px", minHeight: "100vh" }}>
+          <div className="mx-auto" style={{ maxWidth: "1100px", padding: "0 40px" }}>
+            <h2 className="font-display" style={{ fontSize: "26px", fontWeight: 700, letterSpacing: "5px", marginBottom: "55px", color: "var(--text-muted)" }}>
+              <span>3D</span> <em style={{ fontStyle: "normal" }}>ANIMATIONS</em>
+            </h2>
 
-        <section className="py-16 lg:py-24">
-          <div className="mx-auto max-w-8xl px-6 lg:px-12">
             {renders.length > 0 ? (
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
                 {renders.map((render) => (
-                  <div key={render.id} className="group">
-                    <div className="relative overflow-hidden bg-bg-card aspect-video">
-                      <video
-                        src={render.videoPath}
-                        controls
-                        preload="metadata"
-                        className="w-full h-full object-cover"
-                        aria-label={render.title}
-                      />
-                    </div>
-                    <div className="mt-4">
-                      <h2 className="font-display text-xl tracking-widest text-text-primary">
-                        {render.title}
-                      </h2>
-                    </div>
-                  </div>
+                  <RenderCard key={render.id} render={render} />
                 ))}
               </div>
             ) : (
-              <p className="py-24 text-center font-body text-sm text-text-muted">
-                Niciun conținut disponibil momentan.
+              <p className="font-body text-sm text-text-muted" style={{ opacity: 0.4 }}>
+                No renders uploaded yet.
               </p>
             )}
+
+            <div className="mt-16">
+              <Link href="/portfolio" className="btn-primary">
+                ← BACK TO PORTFOLIO
+              </Link>
+            </div>
           </div>
         </section>
       </main>

@@ -15,6 +15,8 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/api/") &&
     !pathname.startsWith("/api/contact") &&
     !pathname.startsWith("/api/projects") &&
+    !pathname.startsWith("/api/auth/login") &&
+    !pathname.startsWith("/api/auth/logout") &&
     // Allow GET on public API routes; protect POST/PUT/DELETE/PATCH
     ["POST", "PUT", "DELETE", "PATCH"].includes(request.method);
 

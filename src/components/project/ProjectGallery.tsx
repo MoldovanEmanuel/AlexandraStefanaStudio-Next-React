@@ -1,16 +1,95 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { GalleryImage } from "@/types";
 
 interface ProjectGalleryProps {
   images: GalleryImage[];
+  layout?: string | null;
 }
 
-export function ProjectGallery({ images }: ProjectGalleryProps) {
+function BeforeAfterSlider({ before, after, index }: { before: string; after: string; index: number }) {
+  const [pct, setPct] = useState(50);
+  const dragging = useRef(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const move = useCallback((clientX: number) => {
+    const rect = sliderRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const p = Math.max(2, Math.min(98, ((clientX - rect.left) / rect.width) * 100));
+    setPct(p);
+  }, []);
+
+  return (
+    <div
+      ref={sliderRef}
+      className="relative select-none overflow-hidden cursor-ew-resize"
+      style={{ height: "80vh", maxHeight: "850px", background: "#221813" }}
+      onMouseDown={(e) => { dragging.current = true; move(e.clientX); e.preventDefault(); }}
+      onMouseMove={(e) => { if (dragging.current) move(e.clientX); }}
+      onMouseUp={() => { dragging.current = false; }}
+      onMouseLeave={() => { dragging.current = false; }}
+      onTouchStart={(e) => { dragging.current = true; move(e.touches[0].clientX); }}
+      onTouchMove={(e) => { if (dragging.current) move(e.touches[0].clientX); }}
+      onTouchEnd={() => { dragging.current = false; }}
+    >
+      {/* Before image */}
+      <div className="absolute inset-0">
+        <Image
+          src={before}
+          alt={`Before ${index + 1}`}
+          fill
+          className="object-cover"
+          sizes="100vw"
+          loading="lazy"
+          style={{ pointerEvents: "none" }}
+        />
+        <span
+          className="font-body"
+          style={{ position: "absolute", bottom: "14px", left: "16px", fontSize: "9px", letterSpacing: "3px", fontWeight: 600, textTransform: "uppercase", color: "rgba(255,255,255,0.85)", textShadow: "0 1px 4px rgba(0,0,0,0.55)", pointerEvents: "none" }}
+        >
+          BEFORE
+        </span>
+      </div>
+
+      {/* After image clipped */}
+      <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${pct}%)` }}>
+        <Image
+          src={after}
+          alt={`After ${index + 1}`}
+          fill
+          className="object-cover"
+          sizes="100vw"
+          loading="lazy"
+          style={{ pointerEvents: "none" }}
+        />
+        <span
+          className="font-body"
+          style={{ position: "absolute", bottom: "14px", right: "16px", fontSize: "9px", letterSpacing: "3px", fontWeight: 600, textTransform: "uppercase", color: "rgba(255,255,255,0.85)", textShadow: "0 1px 4px rgba(0,0,0,0.55)", pointerEvents: "none" }}
+        >
+          AFTER
+        </span>
+      </div>
+
+      {/* Handle */}
+      <div
+        className="absolute top-0 bottom-0 flex flex-col items-center z-10 pointer-events-none"
+        style={{ left: `${pct}%`, transform: "translateX(-50%)" }}
+      >
+        <div style={{ flex: 1, width: "2px", background: "rgba(255,255,255,0.75)" }} />
+        <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "#fff", color: "#2a1a10", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "17px", flexShrink: 0, boxShadow: "0 2px 10px rgba(0,0,0,0.35)" }}>
+          ↔
+        </div>
+        <div style={{ flex: 1, width: "2px", background: "rgba(255,255,255,0.75)" }} />
+      </div>
+    </div>
+  );
+}
+
+export function ProjectGallery({ images, layout }: ProjectGalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const openLightbox = (i: number) => setLightboxIndex(i);
@@ -30,17 +109,44 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
 
   if (images.length === 0) return null;
 
+  if (layout === "before-after") {
+    const pairs: [string, string][] = [];
+    for (let i = 0; i + 1 < images.length; i += 2) {
+      pairs.push([images[i].src, images[i + 1].src]);
+    }
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        {pairs.map((pair, i) => (
+          <BeforeAfterSlider key={i} before={pair[0]} after={pair[1]} index={i} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gridAutoRows: "260px",
+          gridAutoFlow: "row dense",
+          gap: "12px",
+          width: "100%",
+        }}
+      >
         {images.map((img, i) => (
           <button
             key={i}
             onClick={() => openLightbox(i)}
-            className={cn(
-              "group relative mb-4 block w-full overflow-hidden break-inside-avoid",
-              img.orientation === "portrait" ? "aspect-portrait" : "aspect-landscape",
-            )}
+            className="group overflow-hidden cursor-pointer"
+            style={{
+              background: "#1b120e",
+              gridColumn: img.orientation === "landscape" ? "span 2" : undefined,
+              gridRow: img.orientation === "portrait" ? "span 2" : undefined,
+              position: "relative",
+            }}
           >
             <Image
               src={img.src}
@@ -48,16 +154,8 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
+              style={{ display: "block" }}
             />
-            <div className="absolute inset-0 bg-bg/0 transition-colors duration-300 group-hover:bg-bg/20" />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-                <line x1="11" y1="8" x2="11" y2="14" />
-                <line x1="8" y1="11" x2="14" y2="11" />
-              </svg>
-            </div>
           </button>
         ))}
       </div>
@@ -72,7 +170,6 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
             className="fixed inset-0 z-50 flex items-center justify-center bg-bg/95 p-4"
             onClick={closeLightbox}
           >
-            {/* Image */}
             <motion.div
               key={lightboxIndex}
               initial={{ scale: 0.95, opacity: 0 }}
@@ -96,7 +193,6 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
               />
             </motion.div>
 
-            {/* Controls */}
             {images.length > 1 && (
               <>
                 <button

@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: project.name,
-    description: `Proiect de design interior: ${project.name}. ${project.category}${project.location ? ` — ${project.location}` : ""}.`,
+    description: `${project.name} — interior design project by Alexandra Stefana Studio, Cluj-Napoca.${project.location ? ` ${project.location}.` : ""}`,
     openGraph: {
       title: project.name,
       images: project.image ? [{ url: project.image }] : [],
@@ -76,8 +76,8 @@ export default async function ProjectPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Acasă", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Portofoliu", item: `${SITE_URL}/portfolio` },
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Portfolio", item: `${SITE_URL}/portfolio` },
       { "@type": "ListItem", position: 3, name: project.name, item: `${SITE_URL}/project/${slug}` },
     ],
   };
@@ -86,134 +86,116 @@ export default async function ProjectPage({ params }: PageProps) {
     <>
       <JsonLd data={breadcrumbJsonLd} />
       <Header />
-      <main className="pt-[var(--nav-height)]">
-        {/* Hero */}
-        {project.image && (
-          <div className="relative h-[60vh] lg:h-[75vh] overflow-hidden">
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-hero-overlay" />
-            <div className="absolute bottom-10 left-0 right-0 px-6 lg:px-12">
-              <div className="mx-auto max-w-8xl">
-                <nav className="flex items-center gap-2 font-body text-xs uppercase tracking-widest text-text-muted mb-4">
-                  <Link href="/" className="hover:text-accent transition-colors">Acasă</Link>
-                  <span>/</span>
-                  <Link href="/portfolio" className="hover:text-accent transition-colors">Portofoliu</Link>
-                  <span>/</span>
-                  <span className="text-text-secondary">{project.name}</span>
-                </nav>
-                <p className="font-body text-xs uppercase tracking-widest text-accent mb-3">
-                  {project.category}
-                </p>
-                <h1 className="font-display text-display-lg text-text-primary">
-                  {project.name}
-                </h1>
-              </div>
-            </div>
+      <main>
+        {/* Header: title + breadcrumb above hero image */}
+        <div style={{ padding: "110px 0 36px" }}>
+          <div className="mx-auto max-w-[1100px] px-10">
+            <h2
+              className="font-display"
+              style={{ fontSize: "clamp(24px, 3vw, 40px)", fontWeight: 700, letterSpacing: "6px", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "10px" }}
+            >
+              {project.name.toUpperCase()}
+            </h2>
+            <p
+              className="font-body"
+              style={{ fontSize: "10px", letterSpacing: "2px", color: "rgba(166,133,105,0.5)", textTransform: "uppercase", marginBottom: "24px" }}
+            >
+              <Link href="/" style={{ color: "rgba(166,133,105,0.5)" }} className="hover:text-text-secondary transition-colors">Home</Link>
+              <span style={{ margin: "0 8px" }}>/</span>
+              <Link href="/portfolio" style={{ color: "rgba(166,133,105,0.5)" }} className="hover:text-text-secondary transition-colors">Portfolio</Link>
+              <span style={{ margin: "0 8px" }}>/</span>
+              <span>{project.name}</span>
+            </p>
+            <Link
+              href="/portfolio"
+              className="font-body hover:text-text-secondary transition-colors"
+              style={{ display: "inline-block", fontSize: "10px", letterSpacing: "2px", fontWeight: 600, textTransform: "uppercase", color: "rgba(166,133,105,0.5)" }}
+            >
+              ← Back to Portfolio
+            </Link>
           </div>
-        )}
+        </div>
 
-        {/* Content */}
-        <div className="mx-auto max-w-8xl px-6 py-16 lg:px-12 lg:py-24">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-20">
-            {/* Description */}
-            <div className="lg:col-span-2">
-              {!project.image && (
-                <div className="mb-8">
-                  <p className="font-body text-xs uppercase tracking-widest text-accent mb-2">{project.category}</p>
-                  <h1 className="font-display text-display-md text-text-primary">{project.name}</h1>
-                </div>
-              )}
+        {/* Hero image */}
+        <div className="mx-auto max-w-[1100px] px-10">
+          {project.image && (
+            <div style={{ position: "relative", width: "100%", height: "620px", overflow: "hidden", background: "#1b120e" }}>
+              <Image
+                src={project.image}
+                alt={project.name}
+                fill
+                priority
+                className="object-cover"
+                sizes="1100px"
+              />
+            </div>
+          )}
 
-              {project.paragraphs.length > 0 && (
-                <div className="space-y-4 font-body text-sm text-text-muted leading-relaxed">
-                  {project.paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-              )}
+          {/* Details bar */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", background: "#221813" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "28px 36px", borderRight: "1px solid rgba(166,133,105,0.1)" }}>
+              <span className="font-body" style={{ fontSize: "12px", fontWeight: 400, color: "rgba(166,133,105,0.55)" }}>Project Name</span>
+              <span className="font-body" style={{ fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.5px" }}>{project.name}</span>
+            </div>
+            {project.surface ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "28px 36px", borderRight: "1px solid rgba(166,133,105,0.1)" }}>
+                <span className="font-body" style={{ fontSize: "12px", fontWeight: 400, color: "rgba(166,133,105,0.55)" }}>Surface</span>
+                <span className="font-body" style={{ fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.5px" }}>{project.surface}</span>
+              </div>
+            ) : <div />}
+            {project.location ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "28px 36px", borderRight: "1px solid rgba(166,133,105,0.1)" }}>
+                <span className="font-body" style={{ fontSize: "12px", fontWeight: 400, color: "rgba(166,133,105,0.55)" }}>Location</span>
+                <span className="font-body" style={{ fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.5px" }}>{project.location}</span>
+              </div>
+            ) : <div />}
+            {project.year ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px", padding: "28px 36px" }}>
+                <span className="font-body" style={{ fontSize: "12px", fontWeight: 400, color: "rgba(166,133,105,0.55)" }}>Project Year</span>
+                <span className="font-body" style={{ fontSize: "14px", fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.5px" }}>{project.year}</span>
+              </div>
+            ) : <div />}
+          </div>
+        </div>
 
-              {project.features.length > 0 && (
-                <div className="mt-10">
-                  <h2 className="font-display text-xl tracking-widest text-text-primary mb-6">
-                    Caracteristici
-                  </h2>
-                  <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {/* Content body */}
+        <section style={{ padding: "40px 0 90px" }}>
+          <div className="mx-auto max-w-[1100px] px-10" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "50px" }}>
+            {/* Description + features */}
+            {(project.paragraphs.length > 0 || project.features.length > 0) && (
+              <div>
+                {project.paragraphs.map((p, i) => (
+                  <p
+                    key={i}
+                    className="font-body"
+                    style={{ color: "var(--text-muted)", fontSize: "13px", fontWeight: 300, lineHeight: 1.9, marginBottom: "20px" }}
+                  >
+                    {p}
+                  </p>
+                ))}
+                {project.features.length > 0 && (
+                  <ul style={{ listStyle: "none", marginTop: "28px", display: "flex", flexDirection: "column", gap: "16px" }}>
                     {project.features.map((f, i) => (
-                      <li key={i} className="flex items-start gap-3 font-body text-sm text-text-muted">
-                        <span className="mt-1.5 h-1 w-4 shrink-0 bg-accent" />
+                      <li
+                        key={i}
+                        className="font-body"
+                        style={{ display: "flex", alignItems: "center", gap: "18px", fontSize: "13px", color: "var(--text-muted)", fontWeight: 300 }}
+                      >
+                        <span style={{ color: "var(--text-muted)", fontSize: "16px", flexShrink: 0 }}>✓</span>
                         {f}
                       </li>
                     ))}
                   </ul>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
-            {/* Metadata sidebar */}
-            <aside className="border-l border-border pl-8">
-              <h2 className="font-body text-xs uppercase tracking-widest text-accent mb-6">
-                Detalii proiect
-              </h2>
-              <dl className="space-y-4">
-                {project.category && (
-                  <div>
-                    <dt className="font-body text-xs text-text-faint mb-1">Categorie</dt>
-                    <dd className="font-body text-sm text-text-primary">{project.category}</dd>
-                  </div>
-                )}
-                {project.year && (
-                  <div>
-                    <dt className="font-body text-xs text-text-faint mb-1">An</dt>
-                    <dd className="font-body text-sm text-text-primary">{project.year}</dd>
-                  </div>
-                )}
-                {project.surface && (
-                  <div>
-                    <dt className="font-body text-xs text-text-faint mb-1">Suprafață</dt>
-                    <dd className="font-body text-sm text-text-primary">{project.surface}</dd>
-                  </div>
-                )}
-                {project.location && (
-                  <div>
-                    <dt className="font-body text-xs text-text-faint mb-1">Locație</dt>
-                    <dd className="font-body text-sm text-text-primary">{project.location}</dd>
-                  </div>
-                )}
-              </dl>
-            </aside>
+            {/* Gallery */}
+            {project.gallery.length > 0 && (
+              <ProjectGallery images={project.gallery} layout={project.layout} />
+            )}
           </div>
-        </div>
-
-        {/* Gallery */}
-        {project.gallery.length > 0 && (
-          <section className="pb-24">
-            <div className="mx-auto max-w-8xl px-6 lg:px-12">
-              <h2 className="font-display text-2xl tracking-widest text-text-primary mb-10 gold-line">
-                Galerie
-              </h2>
-              <ProjectGallery images={project.gallery} />
-            </div>
-          </section>
-        )}
-
-        {/* Back */}
-        <div className="border-t border-border py-10">
-          <div className="mx-auto max-w-8xl px-6 lg:px-12">
-            <Link href="/portfolio" className="btn-ghost">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M19 12H5M12 5l-7 7 7 7" />
-              </svg>
-              Înapoi la Portofoliu
-            </Link>
-          </div>
-        </div>
+        </section>
       </main>
       <Footer />
     </>

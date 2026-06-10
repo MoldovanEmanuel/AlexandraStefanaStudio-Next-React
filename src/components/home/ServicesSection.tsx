@@ -1,79 +1,108 @@
-import { motion } from "framer-motion";
+import Image from "next/image";
 
 const services = [
   {
     icon: (
-      <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-10 h-10 text-accent">
-        <rect x="8" y="8" width="44" height="44" />
-        <line x1="8" y1="22" x2="52" y2="22" />
-        <line x1="22" y1="22" x2="22" y2="52" />
-        <line x1="36" y1="22" x2="36" y2="52" />
+      <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+        <rect x="8" y="22" width="34" height="22" stroke="#c9a96e" strokeWidth="1.5" fill="none"/>
+        <path d="M4 22L25 6L46 22" stroke="#c9a96e" strokeWidth="1.5" fill="none"/>
+        <rect x="19" y="32" width="12" height="12" stroke="#c9a96e" strokeWidth="1.2" fill="none"/>
       </svg>
     ),
-    title: "Design Interior",
+    title: "INTERIOR DESIGN",
     description:
-      "Concepem spații rezidențiale și comerciale cu atenție la detalii, funcționalitate și estetică rafinată.",
+      "Full-service interior design from concept to completion — space planning, material selection, furniture coordination, all under one roof.",
   },
   {
     icon: (
-      <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-10 h-10 text-accent">
-        <rect x="10" y="18" width="40" height="28" />
-        <polyline points="10,18 30,6 50,18" />
-        <rect x="22" y="30" width="16" height="16" />
-      </svg>
+      <Image src="/assets/icons/3d-modeling.svg" alt="" width={56} height={56} />
     ),
-    title: "Proiecte Rezidențiale",
+    title: "3D MODELING",
     description:
-      "De la apartamente la vile, creăm acasă personalizate care reflectă stilul și personalitatea proprietarilor.",
+      "Detailed 3D models that let you walk through your future space before a single wall is touched. Explore layouts, proportions, and configurations with confidence.",
   },
   {
     icon: (
-      <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-10 h-10 text-accent">
-        <rect x="6" y="16" width="48" height="34" />
-        <rect x="14" y="24" width="12" height="8" />
-        <rect x="34" y="24" width="12" height="8" />
-        <line x1="6" y1="50" x2="54" y2="50" />
-      </svg>
+      <Image src="/assets/icons/render.svg" alt="" width={56} height={56} />
     ),
-    title: "Spații Comerciale",
+    title: "RENDER",
     description:
-      "Birouri, restaurante, boutique-uri — transformăm spațiile comerciale în experiențe memorabile pentru clienți.",
+      "Photorealistic renders that capture lighting, textures, and atmosphere with stunning accuracy — so you can see and feel your finished interior before it exists.",
   },
   {
     icon: (
-      <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="1.2" className="w-10 h-10 text-accent">
-        <circle cx="30" cy="30" r="22" />
-        <path d="M20 30 Q30 16 40 30 Q30 44 20 30" />
-        <circle cx="30" cy="30" r="4" fill="currentColor" />
+      <svg width="56" height="56" viewBox="13 27 24 26" fill="none">
+        <g fill="#c9a96e">
+          <path d="M28.55,48.33h-4.19c-0.1,0-0.19-0.08-0.19-0.19V33.26c0-0.03,0.01-0.06,0.02-0.08l2.1-4.31c0.03-0.06,0.1-0.1,0.17-0.1l0,0c0.07,0,0.14,0.04,0.17,0.1l2.09,4.31c0.01,0.03,0.02,0.05,0.02,0.08v14.88C28.73,48.25,28.65,48.33,28.55,48.33z M24.54,47.96h3.82V33.3l-1.91-3.93l-1.91,3.93V47.96z"/>
+          <path d="M27.71,34.05c-0.05,0-0.1-0.02-0.13-0.05l-0.47-0.47l-0.47,0.47c-0.06,0.06-0.17,0.07-0.24,0.02l-0.71-0.51l-0.44,0.38c-0.06,0.05-0.15,0.06-0.22,0.02l-0.82-0.49c-0.09-0.05-0.12-0.17-0.06-0.26c0.05-0.09,0.17-0.12,0.26-0.06l0.7,0.42l0.45-0.39c0.07-0.06,0.16-0.06,0.23-0.01l0.7,0.51l0.49-0.49c0.03-0.03,0.08-0.05,0.13-0.05l0,0c0.05,0,0.1,0.02,0.13,0.05l0.49,0.49l0.7-0.51c0.08-0.06,0.2-0.04,0.26,0.04c0.06,0.08,0.04,0.2-0.04,0.26l-0.83,0.6C27.79,34.04,27.75,34.05,27.71,34.05z"/>
+          <path d="M27.63,48.33c-0.1,0-0.19-0.08-0.19-0.19V33.8c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v14.34C27.81,48.25,27.73,48.33,27.63,48.33z"/>
+          <path d="M26.59,48.33c-0.1,0-0.19-0.08-0.19-0.19l-0.06-14.41c0-0.1,0.08-0.19,0.19-0.19c0,0,0,0,0,0c0.1,0,0.19,0.08,0.19,0.19l0.06,14.41C26.78,48.24,26.7,48.33,26.59,48.33C26.59,48.33,26.59,48.33,26.59,48.33z"/>
+          <path d="M25.21,48.33c-0.1,0-0.19-0.08-0.19-0.19V33.56c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v14.58C25.4,48.25,25.32,48.33,25.21,48.33z"/>
+          <path d="M26.99,51.43h-1.08c-0.96,0-1.74-0.78-1.74-1.74v-1.55c0-0.1,0.08-0.19,0.19-0.19h4.19c0.1,0,0.19,0.08,0.19,0.19v1.55C28.73,50.65,27.95,51.43,26.99,51.43z M24.54,48.33v1.37c0,0.75,0.61,1.37,1.37,1.37h1.08c0.75,0,1.37-0.61,1.37-1.37v-1.37H24.54z"/>
+          <path d="M20.72,32.53H17.9c-0.1,0-0.19-0.08-0.19-0.19v-2.82c0-0.1,0.08-0.19,0.19-0.19h2.82c0.1,0,0.19,0.08,0.19,0.19v2.82C20.91,32.45,20.82,32.53,20.72,32.53z M18.08,32.16h2.45v-2.45h-2.45V32.16z"/>
+          <path d="M34.96,51.41h-2.82c-0.1,0-0.19-0.08-0.19-0.19V48.4c0-0.1,0.08-0.19,0.19-0.19h2.82c0.1,0,0.19,0.08,0.19,0.19v2.82C35.14,51.33,35.06,51.41,34.96,51.41z M32.32,51.04h2.45v-2.45h-2.45V51.04z"/>
+          <path d="M34.96,32.53h-2.82c-0.1,0-0.19-0.08-0.19-0.19v-2.82c0-0.1,0.08-0.19,0.19-0.19h2.82c0.1,0,0.19,0.08,0.19,0.19v2.82C35.14,32.45,35.06,32.53,34.96,32.53z M32.32,32.16h2.45v-2.45h-2.45V32.16z"/>
+          <path d="M20.72,51.41H17.9c-0.1,0-0.19-0.08-0.19-0.19V48.4c0-0.1,0.08-0.19,0.19-0.19h2.82c0.1,0,0.19,0.08,0.19,0.19v2.82C20.91,51.33,20.82,51.41,20.72,51.41z M18.08,51.04h2.45v-2.45h-2.45V51.04z"/>
+          <path d="M32.13,50h-3.48c-0.1,0-0.19-0.08-0.19-0.19c0-0.1,0.08-0.19,0.19-0.19h3.48c0.1,0,0.19,0.08,0.19,0.19C32.32,49.92,32.24,50,32.13,50z M24.29,50h-3.57c-0.1,0-0.19-0.08-0.19-0.19c0-0.1,0.08-0.19,0.19-0.19h3.57c0.1,0,0.19,0.08,0.19,0.19C24.47,49.92,24.39,50,24.29,50z M33.55,48.59c-0.1,0-0.19-0.08-0.19-0.19v-6.16c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v6.16C33.73,48.51,33.65,48.59,33.55,48.59z M19.31,48.59c-0.1,0-0.19-0.08-0.19-0.19v-6.16c0-0.1,0.08-0.19,0.19-0.19s0.19,0.08,0.19,0.19v6.16C19.5,48.51,19.41,48.59,19.31,48.59z M33.55,37.89c-0.1,0-0.19-0.08-0.19-0.19v-5.35c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v5.35C33.73,37.8,33.65,37.89,33.55,37.89z M19.31,37.89c-0.1,0-0.19-0.08-0.19-0.19v-5.35c0-0.1,0.08-0.19,0.19-0.19s0.19,0.08,0.19,0.19v5.35C19.5,37.8,19.41,37.89,19.31,37.89z M32.13,31.12h-4.72c-0.1,0-0.19-0.08-0.19-0.19s0.08-0.19,0.19-0.19h4.72c0.1,0,0.19,0.08,0.19,0.19S32.24,31.12,32.13,31.12z M25.49,31.12h-4.77c-0.1,0-0.19-0.08-0.19-0.19s0.08-0.19,0.19-0.19h4.77c0.1,0,0.19,0.08,0.19,0.19S25.59,31.12,25.49,31.12z"/>
+          <path d="M37.18,42.43h-8.64c-0.1,0-0.19-0.08-0.19-0.19V37.7c0-0.1,0.08-0.19,0.19-0.19h8.64c0.1,0,0.19,0.08,0.19,0.19v4.54C37.37,42.34,37.29,42.43,37.18,42.43z M28.73,42.05H37v-4.17h-8.27V42.05z M24.36,42.43h-8.64c-0.1,0-0.19-0.08-0.19-0.19V37.7c0-0.1,0.08-0.19,0.19-0.19h8.64c0.1,0,0.19,0.08,0.19,0.19v4.54C24.54,42.34,24.46,42.43,24.36,42.43z M15.9,42.05h8.27v-4.17H15.9V42.05z"/>
+          <path d="M35.18,42.43c-0.1,0-0.19-0.08-0.19-0.19v-2.45c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v2.45C35.37,42.34,35.29,42.43,35.18,42.43z"/>
+          <path d="M33.41,42.43c-0.1,0-0.19-0.08-0.19-0.19v-1.5c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v1.5C33.6,42.34,33.52,42.43,33.41,42.43z"/>
+          <path d="M31.64,42.43c-0.1,0-0.19-0.08-0.19-0.19v-2.45c0-0.1,0.08-0.19,0.19-0.19s0.19,0.08,0.19,0.19v2.45C31.83,42.34,31.75,42.43,31.64,42.43z"/>
+          <path d="M29.87,42.43c-0.1,0-0.19-0.08-0.19-0.19v-1.5c0-0.1,0.08-0.19,0.19-0.19s0.19,0.08,0.19,0.19v1.5C30.06,42.34,29.98,42.43,29.87,42.43z"/>
+          <path d="M22.8,42.43c-0.1,0-0.19-0.08-0.19-0.19v-1.5c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v1.5C22.98,42.34,22.9,42.43,22.8,42.43z"/>
+          <path d="M21.03,42.43c-0.1,0-0.19-0.08-0.19-0.19v-2.45c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v2.45C21.21,42.34,21.13,42.43,21.03,42.43z"/>
+          <path d="M19.26,42.43c-0.1,0-0.19-0.08-0.19-0.19v-1.5c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v1.5C19.44,42.34,19.36,42.43,19.26,42.43z"/>
+          <path d="M17.49,42.43c-0.1,0-0.19-0.08-0.19-0.19v-2.45c0-0.1,0.08-0.19,0.19-0.19c0.1,0,0.19,0.08,0.19,0.19v2.45C17.67,42.34,17.59,42.43,17.49,42.43z"/>
+        </g>
       </svg>
     ),
-    title: "Vizualizare 3D",
+    title: "TECHNICAL DRAWING",
     description:
-      "Randări și animații 3D fotorealiste care aduc proiectele la viață înainte de execuție.",
+      "Precise technical drawings and floor plans that communicate every dimension and detail — the essential foundation for contractors, builders, and permit applications.",
   },
 ];
 
 export function ServicesSection() {
   return (
-    <section className="py-24 lg:py-32">
-      <div className="mx-auto max-w-8xl px-6 lg:px-12">
-        <div className="mb-16">
-          <p className="section-subtitle mb-3">Ce oferim</p>
-          <h2 className="section-title">Servicii</h2>
-        </div>
+    <section id="services" style={{ padding: "90px 0", background: "var(--bg)" }}>
+      <div className="mx-auto" style={{ maxWidth: "1100px", padding: "0 40px" }}>
+        <h2
+          className="font-display"
+          style={{ fontSize: "26px", fontWeight: 700, letterSpacing: "5px", marginBottom: "55px", color: "var(--text-muted)" }}
+        >
+          <em>SERVICES</em>
+        </h2>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0 }}>
           {services.map((service, i) => (
             <div
               key={service.title}
-              className="group border border-border p-8 transition-all duration-500 hover:border-accent/40 hover:bg-bg-card"
-              style={{ animationDelay: `${i * 100}ms` }}
+              style={{
+                textAlign: "left",
+                padding: "24px 36px",
+                paddingLeft: i === 0 ? 0 : "36px",
+                position: "relative",
+              }}
             >
-              <div className="mb-6">{service.icon}</div>
-              <h3 className="font-display text-xl tracking-widest text-text-primary mb-3">
+              {i > 0 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: "15%",
+                    height: "70%",
+                    width: "1px",
+                    background: "rgba(166,133,105,0.07)",
+                  }}
+                />
+              )}
+              <div style={{ margin: "0 0 22px", width: "56px", height: "56px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {service.icon}
+              </div>
+              <h3 className="font-body" style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "3px", marginBottom: "14px", color: "var(--text-muted)", textTransform: "uppercase" }}>
                 {service.title}
               </h3>
-              <p className="font-body text-sm text-text-muted leading-relaxed">
+              <p className="font-body" style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 300, lineHeight: 1.85, marginBottom: "16px" }}>
                 {service.description}
               </p>
             </div>

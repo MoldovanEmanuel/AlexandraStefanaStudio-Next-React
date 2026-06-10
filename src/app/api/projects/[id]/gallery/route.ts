@@ -1,9 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { writeFile, mkdir } from "fs/promises";
+import { join } from "path";
+import { v4 as uuidv4 } from "uuid";
+import sharp from "sharp";
 import { prisma } from "@/lib/prisma";
 import { uploadImageAsWebp, deleteFromS3, keyFromUrl } from "@/lib/s3";
 import { cacheDel, CACHE_KEYS } from "@/lib/redis";
 import type { GalleryImage } from "@/types";
+
+async function storeImage(buffer: Buffer, projectId: string): Promise<string> {
+  if (process.env.AWS_S3_BUCKET) {
+    try {
+      const { url } = await uploadImageAsWebp(buffer, { folder: `portfolio/${projectId}`, maxWidth: 2400 });
+      return url;
+    } catch (err) {
+      console.warn("[Gallery] S3 upload failed, using local storage:", err);
+    }
+  }
+
+  const webpBuffer = await sharp(buffer)
+    .resize({ width: 2400, withoutEnlargement: true })
+    .webp({ quality: 85 })
+    .toBuffer();
+
+  const filename = `${uuidv4()}.webp`;
+  const dir = join(process.cwd(), "public", "uploads", "projects", projectId);
+  await mkdir(dir, { recursive: true });
+  await writeFile(join(dir, filename), webpBuffer);
+  return `/uploads/projects/${projectId}/${filename}`;
+}
 
 interface Params {
   params: Promise<{ id: string }>;
@@ -18,14 +44,11 @@ export async function POST(request: NextRequest, { params }: Params) {
     const file = formData.get("image") as File | null;
 
     if (!file) {
-      return NextResponse.json({ error: "Niciun fișier primit" }, { status: 400 });
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const { url, key } = await uploadImageAsWebp(buffer, {
-      folder: `portfolio/${id}`,
-      maxWidth: 2400,
-    });
+    const url = await storeImage(buffer, id);
 
     const project = await prisma.project.findUnique({
       where: { id: Number(id) },
@@ -44,10 +67,10 @@ export async function POST(request: NextRequest, { params }: Params) {
 
     await cacheDel(CACHE_KEYS.projects);
 
-    return NextResponse.json({ data: { src: url, key } }, { status: 201 });
+    return NextResponse.json({ data: { src: url } }, { status: 201 });
   } catch (error) {
     console.error("[Gallery POST]", error);
-    return NextResponse.json({ error: "Eroare la upload" }, { status: 500 });
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
 
@@ -77,17 +100,19 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       data: { gallery },
     });
 
-    // Best-effort S3 delete
-    try { await deleteFromS3(keyFromUrl(src)); } catch {}
+    // Best-effort S3 delete (only for S3 URLs)
+    if (src.startsWith("http")) {
+      try { await deleteFromS3(keyFromUrl(src)); } catch {}
+    }
 
     await cacheDel(CACHE_KEYS.projects);
 
     return NextResponse.json({ ok: true });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Date invalide" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -125,8 +150,8 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Date invalide" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

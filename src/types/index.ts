@@ -51,6 +51,7 @@ export interface Render {
   id: number;
   title: string;
   videoPath: string;
+  coverImage: string | null;
   sortOrder: number;
   createdAt: string;
   updatedAt: string;

@@ -9,8 +9,8 @@ import { useAdminStore } from "@/store/admin";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
-  email: z.string().email("Email invalid"),
-  password: z.string().min(1, "Parola este obligatorie"),
+  email: z.string().email("Invalid email"),
+  password: z.string().min(1, "Password is required"),
   remember: z.boolean().optional(),
 });
 
@@ -40,18 +40,18 @@ export default function AdminLoginPage() {
         router.push("/admin/dashboard");
       } else {
         const json = await res.json();
-        setError(json.error ?? "Autentificare eșuată");
+        setError(json.error ?? "Login failed");
       }
     } catch {
-      setError("Eroare de conexiune");
+      setError("Connection error");
     }
   };
 
   return (
     <div className="w-full max-w-md p-8 border border-border bg-bg-lighter">
       <div className="mb-8">
-        <p className="font-display text-2xl tracking-widest text-text-primary mb-1">AS STUDIO</p>
-        <p className="font-body text-xs uppercase tracking-widest text-accent">Admin Panel</p>
+        <p className="font-display text-2xl tracking-widest text-text-primary mb-1">ADMIN LOGIN</p>
+        <p className="font-body text-xs text-text-muted">Alexandra Stefana Studio</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
         </div>
 
         <div>
-          <label className="admin-label">Parolă</label>
+          <label className="admin-label">Password</label>
           <input
             type="password"
             {...register("password")}
@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
 
         <label className="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" {...register("remember")} className="accent-accent" />
-          <span className="font-body text-xs text-text-muted">Ține-mă minte</span>
+          <span className="font-body text-xs text-text-muted">Remember me</span>
         </label>
 
         {error && <p className="font-body text-xs text-red-600">{error}</p>}
@@ -87,9 +87,9 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="btn-primary w-full justify-center disabled:opacity-50"
+          className="w-full py-3 font-body text-sm uppercase tracking-widest bg-accent text-bg transition-opacity duration-300 hover:opacity-90 disabled:opacity-50"
         >
-          {isSubmitting ? "Se autentifică..." : "Autentificare"}
+          {isSubmitting ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

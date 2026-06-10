@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { cacheDel, cacheGet, cacheSet, CACHE_KEYS } from "@/lib/redis";
+import { cacheDel, CACHE_KEYS } from "@/lib/redis";
 import { createSlug } from "@/lib/utils";
 
 // ── GET /api/projects ─────────────────────────────────────────────────────────
@@ -40,10 +40,10 @@ export async function GET(request: NextRequest) {
 const createSchema = z.object({
   name: z.string().min(1).max(200),
   category: z.string().min(1).max(100),
-  year: z.string().optional(),
-  surface: z.string().optional(),
-  location: z.string().optional(),
-  image: z.string().optional(),
+  year: z.string().nullable().optional(),
+  surface: z.string().nullable().optional(),
+  location: z.string().nullable().optional(),
+  image: z.string().nullable().optional(),
   paragraphs: z.array(z.string()).default([]),
   features: z.array(z.string()).default([]),
   layout: z.string().optional(),
@@ -72,10 +72,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ data: serializeProject(project) }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Validare eșuată", details: error.flatten().fieldErrors }, { status: 400 });
+      return NextResponse.json({ error: "Validation failed", details: error.flatten().fieldErrors }, { status: 400 });
     }
     console.error("[Projects POST]", error);
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 

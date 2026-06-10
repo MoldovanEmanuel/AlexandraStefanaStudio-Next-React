@@ -47,9 +47,9 @@ export async function PUT(request: NextRequest, { params }: Params) {
     return NextResponse.json({ data: serialize(project) });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Validare eșuată", details: error.flatten().fieldErrors }, { status: 400 });
+      return NextResponse.json({ error: "Validation failed", details: error.flatten().fieldErrors }, { status: 400 });
     }
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -61,7 +61,7 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
     await cacheDel(CACHE_KEYS.projects);
     return NextResponse.json({ ok: true });
   } catch {
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 

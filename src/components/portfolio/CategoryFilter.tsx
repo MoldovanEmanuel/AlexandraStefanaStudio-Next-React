@@ -23,25 +23,30 @@ export function CategoryFilter({ categories, current }: CategoryFilterProps) {
     router.push(`/portfolio?${params.toString()}`);
   };
 
-  const allCategories = ["all", ...categories];
+  const allCategories = ["all", ...categories, "3d-animations"];
 
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="category-filters flex flex-wrap" style={{ gap: "8px", marginBottom: "40px" }}>
       {allCategories.map((cat) => {
-        const isActive =
-          cat === "all" ? current === "all" : current === cat;
+        const isActive = cat === "all" ? current === "all" : current === cat;
+        const label =
+          cat === "all" ? "ALL" :
+          cat === "3d-animations" ? "3D ANIMATIONS" :
+          cat.toUpperCase();
+
         return (
           <button
             key={cat}
             onClick={() => handleSelect(cat)}
+            style={{ padding: "7px 18px" }}
             className={cn(
-              "font-body text-xs uppercase tracking-widest px-5 py-2.5 border transition-all duration-300",
+              "filter-btn font-body text-xs uppercase tracking-widest border transition-all duration-300",
               isActive
-                ? "border-accent bg-accent/10 text-accent"
+                ? "filter-btn--active border-accent bg-accent/10 text-accent"
                 : "border-border text-text-muted hover:border-accent/40 hover:text-text-secondary",
             )}
           >
-            {cat === "all" ? "Toate" : cat}
+            {label}
           </button>
         );
       })}

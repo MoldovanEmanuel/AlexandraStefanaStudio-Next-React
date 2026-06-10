@@ -12,6 +12,6 @@ export async function POST(request: NextRequest) {
     await cacheDel("as-studio:news:*");
     return NextResponse.json({ ok: true });
   } catch {
-    return NextResponse.json({ error: "Eroare internă" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

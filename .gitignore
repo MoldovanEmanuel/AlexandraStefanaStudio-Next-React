@@ -45,3 +45,10 @@ test-results/
 # Prisma
 prisma/*.db
 prisma/*.db-journal
+prisma/prisma/
+
+# Local uploads (user-generated content — not part of source code)
+public/uploads/
+
+# Temp files
+*.tmp.*

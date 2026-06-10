@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ContactForm } from "@/components/contact/ContactForm";
 import { JsonLd } from "@/components/ui/JsonLd";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contactați Alexandra Stefana Studio pentru proiecte de design interior în Cluj-Napoca.",
+    "Get in touch with Alexandra Stefana Interior Design Studio. Based in Cluj-Napoca, Romania — reach us by phone, email, or via the contact form.",
 };
 
 const SITE_URL = process.env.APP_URL ?? "https://alexandrastefana.studio";
@@ -21,7 +20,7 @@ export default function ContactPage() {
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Acasă", item: SITE_URL },
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
         { "@type": "ListItem", position: 2, name: "Contact", item: `${SITE_URL}/contact` },
       ],
     },
@@ -31,72 +30,39 @@ export default function ContactPage() {
     <>
       <JsonLd data={contactJsonLd} />
       <Header />
-      <main className="pt-[var(--nav-height)]">
-        <section className="py-16 lg:py-24 border-b border-border">
-          <div className="mx-auto max-w-8xl px-6 lg:px-12">
-            <p className="section-subtitle mb-3">Hai să vorbim</p>
-            <h1 className="font-display text-display-lg text-text-primary">
-              Contact
-            </h1>
-          </div>
-        </section>
+      <main>
+        <section className="contact-section" style={{ padding: "120px 0 90px" }}>
+          <div className="mx-auto" style={{ maxWidth: "1100px", padding: "0 40px" }}>
+            <h2 className="font-display" style={{ fontSize: "26px", fontWeight: 700, letterSpacing: "5px", marginBottom: "55px", color: "var(--text-muted)" }}>
+              <em style={{ fontStyle: "normal" }}>CONTACT</em>
+            </h2>
 
-        <section className="py-16 lg:py-32">
-          <div className="mx-auto max-w-8xl px-6 lg:px-12">
-            <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
-              {/* Info */}
-              <div>
-                <h2 className="font-display text-2xl tracking-widest text-text-primary mb-8 gold-line">
-                  Informații de contact
-                </h2>
+            <div className="contact-col" style={{ paddingRight: "80px" }}>
+              <p className="font-body" style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "3px", color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "28px" }}>
+                Alexandra Ștefana Interior Design
+              </p>
+              <p className="font-body" style={{ fontSize: "13px", lineHeight: 1.9, color: "var(--text-muted)", opacity: 0.85, marginBottom: "20px" }}>
+                An interior design studio based in Cluj-Napoca, Romania. We design spaces that feel like home — personal, functional, and crafted with care.
+              </p>
 
-                <dl className="space-y-6">
-                  <div>
-                    <dt className="font-body text-xs uppercase tracking-widest text-accent mb-1">
-                      Locație
-                    </dt>
-                    <dd className="font-body text-sm text-text-muted">
-                      Cluj-Napoca, România
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-body text-xs uppercase tracking-widest text-accent mb-1">
-                      Email
-                    </dt>
-                    <dd>
-                      <a
-                        href="mailto:contact@alexandrastefana.studio"
-                        className="font-body text-sm text-text-muted transition-colors hover:text-accent"
-                      >
-                        contact@alexandrastefana.studio
-                      </a>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-body text-xs uppercase tracking-widest text-accent mb-1">
-                      Instagram
-                    </dt>
-                    <dd>
-                      <a
-                        href="https://www.instagram.com/alexandrastefana.studio"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-body text-sm text-text-muted transition-colors hover:text-accent"
-                      >
-                        @alexandrastefana.studio
-                      </a>
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-
-              {/* Form */}
-              <div>
-                <h2 className="font-display text-2xl tracking-widest text-text-primary mb-8 gold-line">
-                  Trimite un mesaj
-                </h2>
-                <ContactForm />
-              </div>
+              <dl>
+                <div className="contact-detail-row" style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "8px" }}>
+                  <span className="font-body" style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2.5px", color: "var(--text-muted)", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0 }}>Phone :</span>
+                  <a href="tel:+40754559627" className="font-body hover:text-accent transition-colors" style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+                    +40 754 559 627
+                  </a>
+                </div>
+                <div className="contact-detail-row" style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "8px" }}>
+                  <span className="font-body" style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2.5px", color: "var(--text-muted)", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0 }}>Email :</span>
+                  <a href="mailto:contact@alexandrastefana.studio" className="font-body hover:text-accent transition-colors" style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+                    contact@alexandrastefana.studio
+                  </a>
+                </div>
+                <div className="contact-detail-row" style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "8px" }}>
+                  <span className="font-body" style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2.5px", color: "var(--text-muted)", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0 }}>Address :</span>
+                  <span className="font-body" style={{ fontSize: "13px", color: "var(--text-muted)" }}>Cluj-Napoca, Romania</span>
+                </div>
+              </dl>
             </div>
           </div>
         </section>

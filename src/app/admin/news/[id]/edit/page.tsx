@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { NewsForm } from "@/components/admin/NewsForm";
@@ -6,7 +7,7 @@ import type { NewsItem } from "@/types";
 
 interface PageProps { params: Promise<{ id: string }> }
 
-export const metadata: Metadata = { title: "Editează noutate" };
+export const metadata: Metadata = { title: "Edit News | Admin" };
 
 export default async function EditNewsPage({ params }: PageProps) {
   const { id } = await params;
@@ -22,7 +23,15 @@ export default async function EditNewsPage({ params }: PageProps) {
 
   return (
     <div>
-      <h1 className="font-display text-2xl tracking-widest text-text-primary mb-8">Editează noutate</h1>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="font-display text-2xl tracking-widest text-text-primary">EDIT NEWS</h1>
+        <Link
+          href="/admin/news"
+          className="font-body text-xs uppercase tracking-widest text-text-muted hover:text-text-secondary transition-colors"
+        >
+          ← BACK
+        </Link>
+      </div>
       <NewsForm item={item} />
     </div>
   );

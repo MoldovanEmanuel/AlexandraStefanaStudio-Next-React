@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Date invalide" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 
   const raw = body as Record<string, unknown>;
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
   if (!success) {
     return NextResponse.json(
-      { error: "Prea multe mesaje trimise. Vă rugăm să așteptați câteva minute." },
+      { error: "Too many messages sent. Please wait a few minutes." },
       {
         status: 429,
         headers: { "X-RateLimit-Remaining": String(remaining) },
@@ -48,11 +48,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Date invalide", details: error.flatten().fieldErrors },
+        { error: "Invalid data", details: error.flatten().fieldErrors },
         { status: 400 },
       );
     }
-    return NextResponse.json({ error: "Eroare" }, { status: 400 });
+    return NextResponse.json({ error: "Error" }, { status: 400 });
   }
 
   // Persist

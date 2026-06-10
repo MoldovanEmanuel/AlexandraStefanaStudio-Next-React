@@ -7,17 +7,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/", label: "Acasă" },
-  { href: "/portfolio", label: "Portofoliu" },
-  { href: "/renders", label: "3D Animații" },
-  { href: "/news", label: "Noutăți" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#home",      label: "HOME",      section: "home",      route: null         },
+  { href: "/#about",     label: "ABOUT",     section: "about",     route: null         },
+  { href: "/#services",  label: "SERVICES",  section: "services",  route: null         },
+  { href: "/portfolio",  label: "PORTFOLIO", section: "portfolio", route: "/portfolio" },
+  { href: "/news",       label: "NEWS",      section: "news",      route: "/news"      },
+  { href: "/contact",    label: "CONTACT",   section: null,        route: "/contact"   },
 ];
 
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -25,47 +27,62 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Track which section is in view on the homepage
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sections = ["home", "about", "services", "portfolio", "news"];
+    const observers: IntersectionObserver[] = [];
+
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { threshold: 0.3 },
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, [pathname]);
+
   useEffect(() => setMobileOpen(false), [pathname]);
 
   return (
     <>
       <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-          scrolled
-            ? "bg-bg/95 backdrop-blur-sm border-b border-border shadow-card"
-            : "bg-transparent",
-        )}
-        style={{ height: "var(--nav-height)" }}
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{ height: "var(--nav-height)", background: "#221813", boxShadow: scrolled ? "0 2px 12px rgba(0,0,0,0.3)" : "none", transition: "box-shadow 0.3s ease" }}
       >
-        <div className="mx-auto flex h-full max-w-8xl items-center justify-between px-6 lg:px-12">
+        <div className="flex h-full items-center justify-between" style={{ padding: "0 40px" }}>
           {/* Logo */}
           <Link
             href="/"
             className="flex flex-col leading-none transition-opacity hover:opacity-80"
           >
-            <span className="font-display text-2xl tracking-widest text-text-primary">
+            <span className="font-display" style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "3px", lineHeight: 1, color: "var(--text-muted)" }}>
               ALEXANDRA STEFANA
             </span>
-            <span className="font-body text-[10px] uppercase tracking-[0.3em] text-accent">
-              Interior Design Studio
+            <span className="font-body" style={{ fontSize: "7px", letterSpacing: "1px", color: "var(--text-muted)", marginTop: "4px", textTransform: "uppercase" }}>
+              Interior Designer &amp; Visualization | CG Artist
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-8 lg:flex">
-            {navLinks.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  "nav-link",
-                  pathname === href && "active",
-                )}
-              >
-                {label}
-              </Link>
-            ))}
+          <nav className="hidden items-center lg:flex" style={{ gap: "28px" }}>
+            {navLinks.map(({ href, label, section, route }) => {
+              const onHome = pathname === "/";
+              const isActive =
+                (onHome && section && activeSection === section) ||
+                (!onHome && route && (pathname === route || pathname.startsWith(route + "/")));
+              return (
+                <Link key={href} href={href} className={cn("nav-link", isActive && "active")}>
+                  {label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Mobile hamburger */}
@@ -108,18 +125,24 @@ export function Header() {
             className="fixed inset-x-0 top-[var(--nav-height)] z-40 bg-bg-lighter border-b border-border px-6 pb-8 pt-6 lg:hidden"
           >
             <nav className="flex flex-col gap-6">
-              {navLinks.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={cn(
-                    "font-display text-xl uppercase tracking-widest transition-colors",
-                    pathname === href ? "text-accent" : "text-text-primary",
-                  )}
-                >
-                  {label}
-                </Link>
-              ))}
+              {navLinks.map(({ href, label, section, route }) => {
+                const onHome = pathname === "/";
+                const isActive =
+                  (onHome && section && activeSection === section) ||
+                  (!onHome && route && (pathname === route || pathname.startsWith(route + "/")));
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className={cn(
+                      "font-display text-xl uppercase tracking-widest transition-colors",
+                      isActive ? "text-accent" : "text-text-primary",
+                    )}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
             </nav>
           </motion.div>
         )}

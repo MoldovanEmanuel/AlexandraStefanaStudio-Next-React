@@ -18,7 +18,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 export async function DELETE(_req: NextRequest, { params }: Params) {
   const { id } = await params;
   const slide = await prisma.heroSlide.findUnique({ where: { id: Number(id) } });
-  if (slide) {
+  if (slide?.image?.startsWith("http")) {
     try { await deleteFromS3(keyFromUrl(slide.image)); } catch {}
   }
   await prisma.heroSlide.delete({ where: { id: Number(id) } });

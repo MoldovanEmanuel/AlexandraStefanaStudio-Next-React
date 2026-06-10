@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import { AdminSidebar } from "./AdminSidebar";
-import { useAdminStore } from "@/store/admin";
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

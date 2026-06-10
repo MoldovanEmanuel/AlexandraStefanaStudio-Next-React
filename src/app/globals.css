@@ -17,7 +17,7 @@
     --text-muted: #795c42;
     --border: rgba(201, 169, 110, 0.2);
     --ease-luxury: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --nav-height: 80px;
+    --nav-height: 68px;
   }
 
   *,
@@ -40,8 +40,14 @@
     font-family: var(--font-montserrat), system-ui, sans-serif;
     font-size: 1rem;
     line-height: 1.6;
-    min-height: 100dvh;
+    min-height: 100vh;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
   }
 
   h1,
@@ -135,7 +141,10 @@
 @layer components {
   /* Navigation */
   .nav-link {
-    @apply relative font-body text-sm font-medium uppercase tracking-widest text-text-secondary transition-colors duration-300 hover:text-accent;
+    @apply relative font-body font-medium uppercase text-text-secondary transition-colors duration-300 hover:text-accent;
+    font-size: 10.5px;
+    letter-spacing: 2px;
+    white-space: nowrap;
   }
 
   .nav-link::after {

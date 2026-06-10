@@ -8,17 +8,19 @@ const QUERY_KEY = "news";
 async function fetchNews(params?: {
   page?: number;
   perPage?: number;
+  admin?: boolean;
 }): Promise<PaginatedResponse<NewsItem>> {
   const url = new URL("/api/news", window.location.origin);
   if (params?.page) url.searchParams.set("page", String(params.page));
   if (params?.perPage) url.searchParams.set("perPage", String(params.perPage));
+  if (params?.admin) url.searchParams.set("admin", "1");
 
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error("Failed to fetch news");
   return res.json();
 }
 
-export function useNews(params?: { page?: number; perPage?: number }) {
+export function useNews(params?: { page?: number; perPage?: number; admin?: boolean }) {
   return useQuery({
     queryKey: [QUERY_KEY, params],
     queryFn: () => fetchNews(params),

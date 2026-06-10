@@ -31,6 +31,7 @@ export function HeroSlider({ slides }: HeroSliderProps) {
 
   return (
     <section
+      id="home"
       className="relative h-screen w-full overflow-hidden"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
@@ -56,67 +57,44 @@ export function HeroSlider({ slides }: HeroSliderProps) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Content */}
-      <div className="absolute bottom-24 left-0 right-0 z-10 px-6 lg:px-12">
-        <div className="mx-auto max-w-8xl">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.7 }}
-            className="font-body text-xs uppercase tracking-[0.4em] text-accent mb-4"
-          >
-            Interior Design Studio · Cluj-Napoca
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="font-display text-display-xl text-text-primary max-w-3xl"
-          >
-            Alexandra
-            <br />
-            Stefana Studio
-          </motion.h1>
-        </div>
+      {/* Content — right-aligned, vertically centered */}
+      <div
+        className="absolute z-10"
+        style={{ textAlign: "right", width: "520px", right: "22%", top: "50%", transform: "translateY(-50%) translateY(10px)" }}
+      >
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="font-display"
+          style={{ fontSize: "clamp(22px, 3vw, 46px)", fontWeight: 600, letterSpacing: "6px", lineHeight: 1.25, color: "var(--text-muted)", textAlign: "right" }}
+        >
+          <span style={{ whiteSpace: "nowrap" }}>INTERIOR DESIGN &amp;</span>
+          <br />
+          <span>VISUALIZATION</span>
+        </motion.h1>
       </div>
 
-      {/* Controls */}
+      {/* Bottom-left nav */}
       {slides.length > 1 && (
-        <>
+        <div style={{ position: "absolute", bottom: "36px", left: "28px", zIndex: 2, display: "flex", gap: "10px" }}>
           <button
             onClick={prev}
             aria-label="Previous slide"
-            className="absolute left-6 top-1/2 z-10 -translate-y-1/2 p-3 text-text-secondary transition-colors hover:text-accent"
+            style={{ width: "34px", height: "34px", border: "1px solid rgba(166,133,105,0.28)", color: "rgba(166,133,105,0.6)", fontSize: "22px", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.3s ease, color 0.3s ease" }}
+            className="hover:text-text-secondary"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
+            ‹
           </button>
-
           <button
             onClick={next}
             aria-label="Next slide"
-            className="absolute right-6 top-1/2 z-10 -translate-y-1/2 p-3 text-text-secondary transition-colors hover:text-accent"
+            style={{ width: "34px", height: "34px", border: "1px solid rgba(166,133,105,0.28)", color: "rgba(166,133,105,0.6)", fontSize: "22px", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.3s ease, color 0.3s ease" }}
+            className="hover:text-text-secondary"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
+            ›
           </button>
-
-          {/* Dots */}
-          <div className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`h-px transition-all duration-300 ${
-                  i === current ? "w-8 bg-accent" : "w-4 bg-text-muted"
-                }`}
-              />
-            ))}
-          </div>
-        </>
+        </div>
       )}
     </section>
   );

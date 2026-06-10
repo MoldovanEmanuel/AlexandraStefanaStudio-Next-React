@@ -19,7 +19,6 @@ import { CSS } from "@dnd-kit/utilities";
 
 interface DragDropItem {
   id: number;
-  [key: string]: unknown;
 }
 
 interface DragDropListProps<T extends DragDropItem> {

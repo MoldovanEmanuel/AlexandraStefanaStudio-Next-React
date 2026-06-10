@@ -22,18 +22,18 @@ const SITE_URL = process.env.APP_URL ?? "https://alexandrastefana.studio";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Alexandra Stefana Studio | Design Interior Cluj-Napoca",
+    default: "Alexandra Stefana — Interior Design Studio Cluj-Napoca",
     template: "%s | Alexandra Stefana Studio",
   },
   description:
-    "Studio de design interior în Cluj-Napoca, specializat în soluții rezidențiale și comerciale. Design elegant, personalizat și funcțional.",
+    "Alexandra Stefana is an interior design studio based in Cluj-Napoca, Romania. We design personal, functional spaces — from family homes to commercial interiors.",
   keywords: [
-    "design interior",
+    "interior design",
     "Cluj-Napoca",
-    "design rezidențial",
-    "design comercial",
-    "3D vizualizare",
-    "studio design",
+    "residential design",
+    "commercial design",
+    "3D visualization",
+    "design studio",
   ],
   authors: [{ name: "Alexandra Stefana Studio" }],
   creator: "Alexandra Stefana Studio",
@@ -44,16 +44,16 @@ export const metadata: Metadata = {
     siteName: "Alexandra Stefana Studio",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/assets/images/about.jpg",
         width: 1200,
         height: 630,
-        alt: "Alexandra Stefana Studio — Design Interior",
+        alt: "Alexandra Stefana Studio — Interior Design",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/og-image.jpg"],
+    images: ["/assets/images/about.jpg"],
   },
   robots: {
     index: true,
@@ -86,7 +86,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="ro"
+      lang="en"
       className={`${leagueGothic.variable} ${montserrat.variable}`}
     >
       <body>

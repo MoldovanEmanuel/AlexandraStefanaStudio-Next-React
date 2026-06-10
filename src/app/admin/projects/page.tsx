@@ -21,16 +21,16 @@ export default function AdminProjectsPage() {
   };
 
   const handleDelete = async (id: number, name: string) => {
-    if (!window.confirm(`Ești sigur că vrei să ștergi proiectul "${name}"?`)) return;
+    if (!window.confirm(`Are you sure you want to delete the project "${name}"?`)) return;
     deleteProject.mutate(id);
   };
 
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="font-display text-2xl tracking-widest text-text-primary">Proiecte</h1>
+        <h1 className="font-display text-2xl tracking-widest text-text-primary">Projects</h1>
         <Link href="/admin/projects/new" className="btn-secondary">
-          + Proiect nou
+          + New project
         </Link>
       </div>
 
@@ -42,7 +42,7 @@ export default function AdminProjectsPage() {
         </div>
       ) : (data?.data?.length ?? 0) === 0 ? (
         <p className="font-body text-sm text-text-muted py-12 text-center">
-          Niciun proiect. <Link href="/admin/projects/new" className="text-accent">Adaugă primul proiect</Link>
+          No projects yet. <Link href="/admin/projects/new" className="text-accent">Add the first project</Link>
         </p>
       ) : (
         <DragDropList
@@ -69,13 +69,13 @@ export default function AdminProjectsPage() {
                   href={`/admin/projects/${project.id}/edit`}
                   className="font-body text-xs text-text-secondary hover:text-accent transition-colors"
                 >
-                  Editează
+                  Edit
                 </Link>
                 <button
                   onClick={() => handleDelete(project.id, project.name)}
                   className="font-body text-xs text-text-faint hover:text-red-600 transition-colors"
                 >
-                  Șterge
+                  Delete
                 </button>
               </div>
             </div>
